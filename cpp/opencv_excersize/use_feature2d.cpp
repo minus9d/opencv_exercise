@@ -1,3 +1,8 @@
+/**
+* @file use_feature2d
+* @brief modification of samples\cpp\tutorial_code\features2D\SURF_descriptor.cpp
+*/
+
 #include "opencv2/core/core.hpp"
 #include "opencv2/features2d/features2d.hpp"
 #include "opencv2/highgui/highgui.hpp"
