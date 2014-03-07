@@ -1,8 +1,10 @@
 #include <iostream>
 
-#include <opencv2/core/core.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
-#include <opencv2/highgui/highgui.hpp>
+#include <stdio.h>
+#include <iostream>
+
+#include "opencv2/core/core.hpp"
+#include "use_feature2d.h"
 
 // get version
 #define CV_VERSION_STR CVAUX_STR(CV_MAJOR_VERSION) CVAUX_STR(CV_MINOR_VERSION) CVAUX_STR(CV_SUBMINOR_VERSION)
@@ -21,15 +23,29 @@
 //#pragma comment(lib, "opencv_gpu"   CV_VERSION_STR CV_EXT_STR)
 //#pragma comment(lib, "opencv_video"   CV_VERSION_STR CV_EXT_STR)
 //#pragma comment(lib, "opencv_objdetect"  CV_VERSION_STR CV_EXT_STR)
-//#pragma comment(lib, "opencv_features2d" CV_VERSION_STR CV_EXT_STR)
+#pragma comment(lib, "opencv_features2d" CV_VERSION_STR CV_EXT_STR)
 //#pragma comment(lib, "opencv_flann"   CV_VERSION_STR CV_EXT_STR)
 //#pragma comment(lib, "opencv_ffmpeg"  CV_VERSION_STR CV_EXT_STR)
 //#pragma comment(lib, "opencv_ts"   CV_VERSION_STR CV_EXT_STR)
 //#pragma comment(lib, "opencv_contrib"  CV_VERSION_STR CV_EXT_STR)
 //#pragma comment(lib, "opencv_ml"   CV_VERSION_STR CV_EXT_STR)
 //#pragma comment(lib, "opencv_legacy"  CV_VERSION_STR CV_EXT_STR)
+#pragma comment(lib, "opencv_nonfree" CV_VERSION_STR CV_EXT_STR)
 
-int main(void){
-    cv::Mat img(256 * 16, 256 * 16, CV_8UC3);
+
+/**
+* @file SURF_descriptor
+* @brief SURF detector + descritpor + BruteForce Matcher + drawing matches with OpenCV functions
+* @author A. Huaman
+*/
+
+/**
+* @function main
+* @brief Main function
+*/
+int main(int argc, char** argv)
+{
+    useFeature2d();
     return 0;
 }
+
