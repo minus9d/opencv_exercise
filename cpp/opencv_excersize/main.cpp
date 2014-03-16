@@ -1,8 +1,3 @@
-#include <iostream>
-
-#include <stdio.h>
-#include <iostream>
-
 #include "opencv2/core/core.hpp"
 #include "use_feature2d.h"
 
