@@ -12,6 +12,9 @@
 #include "opencv2/nonfree/features2d.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
 
+/**
+@brief SURFで検出した特徴点を画像に重畳して表示
+*/
 void drawSurfKeypoints()
 {
     cv::Mat img = cv::imread("..\\img\\baboon200.jpg", CV_LOAD_IMAGE_GRAYSCALE);
