@@ -46,7 +46,7 @@
 int main(int argc, char** argv)
 {
     findAllSurfKeypoints();
-    useFeature2d();
+    //useFeature2d();
     return 0;
 }
 

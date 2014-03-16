@@ -36,6 +36,14 @@ void findAllSurfKeypoints()
         maxRespone = max(maxRespone, p.response);
     }
 
+    Mat dstImg;
+
+    // keypoint‚ğ•`‰æ
+    // all(-1)‚É‚·‚é‚ÆF‚ª©“®‚Å‘I‘ğ‚³‚ê‚é
+    drawKeypoints(img, keypoints, dstImg, Scalar::all(-1), DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
+    imshow("Keypoints", dstImg);
+    waitKey(0);
+
     return;
 }
 
