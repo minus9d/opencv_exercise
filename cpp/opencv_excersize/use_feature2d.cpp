@@ -50,14 +50,11 @@ void drawSurfKeypoints()
     Mat dstImgMine;
     cvtColor(img, dstImgMine, CV_GRAY2BGR);
     for (auto k : keypoints){
-        circle(dstImgMine, k.pt, 10, cv::Scalar(255, 0, 0));
+        circle(dstImgMine, k.pt, 3, cv::Scalar(255, 0, 0));
     }
     imshow("KeypointsMine", dstImgMine);
 
-
     waitKey(0);
-
-
 
     return;
 }
