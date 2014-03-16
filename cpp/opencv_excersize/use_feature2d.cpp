@@ -27,14 +27,6 @@ void drawSurfKeypoints()
 
     if (keypoints.empty()) return;
 
-    // スコアの最小値と最大値を取得
-    float minRespone = keypoints[0].response;
-    float maxRespone = keypoints[0].response;
-    for (auto p : keypoints){
-        minRespone = min(minRespone, p.response);
-        maxRespone = max(maxRespone, p.response);
-    }
-
     // keypointを描画
     Mat dstImg;
     drawKeypoints(
