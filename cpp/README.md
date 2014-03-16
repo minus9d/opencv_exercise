@@ -1,4 +1,4 @@
-# OpenCV Excersize
+# OpenCV Exercise
 
 ## Getting Started
 * download opencv2.4.8
