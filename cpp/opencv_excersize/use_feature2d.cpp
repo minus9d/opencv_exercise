@@ -35,7 +35,6 @@ void drawSurfKeypoints()
         maxRespone = max(maxRespone, p.response);
     }
 
-
     // keypointを描画
     Mat dstImg;
     drawKeypoints(
@@ -46,7 +45,19 @@ void drawSurfKeypoints()
         DrawMatchesFlags::DRAW_RICH_KEYPOINTS // 描画のオプション  DRAW_RICH_KEYPOINTSを選んだ場合は、キーポイントのサイズと方向が描画される
         );
     imshow("Keypoints", dstImg);
+
+    // 自力でkeypointを描画
+    Mat dstImgMine;
+    cvtColor(img, dstImgMine, CV_GRAY2BGR);
+    for (auto k : keypoints){
+        circle(dstImgMine, k.pt, 10, cv::Scalar(255, 0, 0));
+    }
+    imshow("KeypointsMine", dstImgMine);
+
+
     waitKey(0);
+
+
 
     return;
 }
