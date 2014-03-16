@@ -20,7 +20,7 @@ void drawSurfKeypoints()
     cv::Mat img = cv::imread("..\\img\\baboon200.jpg", CV_LOAD_IMAGE_GRAYSCALE);
 
     int minHessian = 400;
-    cv::SurfFeatureDetector detector(0);
+    cv::SurfFeatureDetector detector(minHessian);
     std::vector<cv::KeyPoint> keypoints;
     detector.detect(img, keypoints);
 
