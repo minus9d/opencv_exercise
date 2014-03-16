@@ -34,18 +34,12 @@
 
 
 /**
-* @file SURF_descriptor
-* @brief SURF detector + descritpor + BruteForce Matcher + drawing matches with OpenCV functions
-* @author A. Huaman
-*/
-
-/**
 * @function main
 * @brief Main function
 */
 int main(int argc, char** argv)
 {
-    findAllSurfKeypoints();
+    drawSurfKeypoints();
     //useFeature2d();
     return 0;
 }

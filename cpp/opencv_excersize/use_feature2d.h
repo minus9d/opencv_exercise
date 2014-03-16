@@ -1,4 +1,4 @@
 #pragma once
 
-void findAllSurfKeypoints();
+void drawSurfKeypoints();
 void useFeature2d();

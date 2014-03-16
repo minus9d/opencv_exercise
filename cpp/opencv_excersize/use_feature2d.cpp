@@ -16,12 +16,11 @@ using namespace cv;
 using namespace std;
 
 
-void findAllSurfKeypoints()
+void drawSurfKeypoints()
 {
     Mat img = imread("..\\img\\baboon200.jpg", CV_LOAD_IMAGE_GRAYSCALE);
 
-    // しきい値関係なくすべての点を抽出
-    int minHessian = 0;
+    int minHessian = 400;
     SurfFeatureDetector detector(0);
     std::vector<KeyPoint> keypoints;
     detector.detect(img, keypoints);
@@ -36,11 +35,16 @@ void findAllSurfKeypoints()
         maxRespone = max(maxRespone, p.response);
     }
 
-    Mat dstImg;
 
     // keypointを描画
-    // all(-1)にすると色が自動で選択される
-    drawKeypoints(img, keypoints, dstImg, Scalar::all(-1), DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
+    Mat dstImg;
+    drawKeypoints(
+        img, // 入力画像
+        keypoints, // 特徴点
+        dstImg, // 出力画像
+        Scalar::all(-1), // 色  -1の場合はランダム?
+        DrawMatchesFlags::DRAW_RICH_KEYPOINTS // 描画のオプション  DRAW_RICH_KEYPOINTSを選んだ場合は、キーポイントのサイズと方向が描画される
+        );
     imshow("Keypoints", dstImg);
     waitKey(0);
 
