@@ -3,12 +3,41 @@
 * @brief modification of samples\cpp\tutorial_code\features2D\SURF_descriptor.cpp
 */
 
+#include <iostream>
+#include <algorithm>
+#include <vector>
 #include "opencv2/core/core.hpp"
 #include "opencv2/features2d/features2d.hpp"
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/nonfree/features2d.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
 
 using namespace cv;
+using namespace std;
+
+
+void findAllSurfKeypoints()
+{
+    Mat img = imread("..\\img\\baboon200.jpg", CV_LOAD_IMAGE_GRAYSCALE);
+
+    // しきい値関係なくすべての点を抽出
+    int minHessian = 0;
+    SurfFeatureDetector detector(0);
+    std::vector<KeyPoint> keypoints;
+    detector.detect(img, keypoints);
+
+    if (keypoints.empty()) return;
+
+    // スコアの最小値と最大値を取得
+    float minRespone = keypoints[0].response;
+    float maxRespone = keypoints[0].response;
+    for (auto p : keypoints){
+        minRespone = min(minRespone, p.response);
+        maxRespone = max(maxRespone, p.response);
+    }
+
+    return;
+}
 
 void useFeature2d(){
 
