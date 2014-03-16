@@ -25,22 +25,22 @@ void drawSurfKeypoints()
 
     // keypointを描画
     cv::Mat dstImg;
-    drawKeypoints(
+    cv::drawKeypoints(
         img, // 入力画像
         keypoints, // 特徴点
         dstImg, // 出力画像
         cv::Scalar::all(-1), // 色  -1の場合はランダム?
         cv::DrawMatchesFlags::DRAW_RICH_KEYPOINTS // 描画のオプション  DRAW_RICH_KEYPOINTSを選んだ場合は、キーポイントのサイズと方向が描画される
         );
-    imshow("Keypoints", dstImg);
+    cv::imshow("Keypoints", dstImg);
 
     // 自力でkeypointを描画
     cv::Mat dstImgMine;
-    cvtColor(img, dstImgMine, CV_GRAY2BGR);
+    cv::cvtColor(img, dstImgMine, CV_GRAY2BGR);
     for (auto k : keypoints){
-        circle(dstImgMine, k.pt, 3, cv::Scalar(255, 0, 0));
+        cv::circle(dstImgMine, k.pt, 3, cv::Scalar(255, 0, 0));
     }
-    imshow("KeypointsMine", dstImgMine);
+    cv::imshow("KeypointsMine", dstImgMine);
 
     cv::waitKey(0);
 
