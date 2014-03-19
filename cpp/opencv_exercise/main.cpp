@@ -1,5 +1,6 @@
 #include "opencv2/core/core.hpp"
 #include "use_feature2d.h"
+#include "use_gui.h"
 
 // get version
 #define CV_VERSION_STR CVAUX_STR(CV_MAJOR_VERSION) CVAUX_STR(CV_MINOR_VERSION) CVAUX_STR(CV_SUBMINOR_VERSION)
@@ -34,8 +35,9 @@
 */
 int main(int argc, char** argv)
 {
-    drawSurfKeypoints();
+    //drawSurfKeypoints();
     //useFeature2d();
+    useGUI();
     return 0;
 }
 
