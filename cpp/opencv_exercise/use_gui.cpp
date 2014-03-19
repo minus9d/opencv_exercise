@@ -60,7 +60,7 @@ int useGUI(void)
     const char* name = "Box Example";
     box = cvRect(-1, -1, 0, 0);
 
-    IplImage* image = cvLoadImage("../img/baboon200.jpg");
+    IplImage* image = cvCreateImage(cvSize(960, 540), IPL_DEPTH_8U, 3);;
     cvZero(image);
     IplImage* temp = cvCloneImage(image);
 
