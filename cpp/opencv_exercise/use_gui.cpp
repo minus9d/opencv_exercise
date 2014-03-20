@@ -15,17 +15,17 @@ using namespace cv;
 
 void my_mouse_callback(int event, int x, int y, int flags, void* param);
 
-CvRect box;
+cv::Rect box;
 bool drawing_box = false;
 
-void draw_box(IplImage* img, CvRect rect){
-    cvRectangle(img, cvPoint(box.x, box.y), cvPoint(box.x + box.width, box.y + box.height),
-        cvScalar(0xff, 0x00, 0x00));
+void draw_box(cv::Mat* img, cv::Rect rect){
+    cv::rectangle(*img, cv::Point2d(box.x, box.y), cv::Point2d(box.x + box.width, box.y + box.height),
+        cv::Scalar(0xff, 0x00, 0x00));
 }
 
 // Implement mouse callback
 void my_mouse_callback(int event, int x, int y, int flags, void* param){
-    IplImage* image = (IplImage*)param;
+    cv::Mat* image = (cv::Mat*)param;
 
     switch (event){
     case CV_EVENT_MOUSEMOVE:
@@ -37,7 +37,7 @@ void my_mouse_callback(int event, int x, int y, int flags, void* param){
 
     case CV_EVENT_LBUTTONDOWN:
         drawing_box = true;
-        box = cvRect(x, y, 0, 0);
+        box = cv::Rect(x, y, 0, 0);
         break;
 
     case CV_EVENT_LBUTTONUP:
@@ -58,31 +58,28 @@ void my_mouse_callback(int event, int x, int y, int flags, void* param){
 int useGUI(void)
 {
     const char* name = "Box Example";
-    box = cvRect(-1, -1, 0, 0);
+    box = cv::Rect(-1, -1, 0, 0);
 
-    IplImage* image = cvCreateImage(cvSize(960, 540), IPL_DEPTH_8U, 3);;
-    cvZero(image);
-    IplImage* temp = cvCloneImage(image);
+    cv::Mat image(cv::Size(960, 540), CV_8UC3, cv::Scalar(0, 0, 0));
+    cv::Mat temp = image.clone();
 
-    cvNamedWindow(name);
+    // ウィンドウを生成
+    cv::namedWindow(name, CV_WINDOW_AUTOSIZE | CV_WINDOW_FREERATIO);
 
-    // Set up the callback
-    cvSetMouseCallback(name, my_mouse_callback, (void*)image);
+    // コールバックを設定
+    cv::setMouseCallback(name, my_mouse_callback, (void *)&image);
 
     // Main loop
     while (1){
-        cvCopyImage(image, temp);
+        image.copyTo(temp);
         if (drawing_box)
-            draw_box(temp, box);
-        cvShowImage(name, temp);
+            draw_box(&temp, box);
+        cv::imshow(name, temp);
 
+        // Escで終了
         if (cvWaitKey(15) == 27)
             break;
     }
-
-    cvReleaseImage(&image);
-    cvReleaseImage(&temp);
-    cvDestroyWindow(name);
 
     return 0;
 }
