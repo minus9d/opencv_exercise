@@ -11,10 +11,8 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/legacy/compat.hpp>
 
-using namespace cv;
 
-void my_mouse_callback(int event, int x, int y, int flags, void* param);
-
+// グローバル変数
 cv::Rect box;
 bool drawing_box = false;
 
@@ -23,9 +21,9 @@ void draw_box(cv::Mat* img, cv::Rect rect){
         cv::Scalar(0xff, 0x00, 0x00));
 }
 
-// Implement mouse callback
+// コールバック関数
 void my_mouse_callback(int event, int x, int y, int flags, void* param){
-    cv::Mat* image = (cv::Mat*)param;
+    cv::Mat* image = static_cast<cv::Mat*>(param);
 
     switch (event){
     case CV_EVENT_MOUSEMOVE:
@@ -57,7 +55,7 @@ void my_mouse_callback(int event, int x, int y, int flags, void* param){
 
 int useGUI(void)
 {
-    const char* name = "Box Example";
+    std::string name = "Box Example";
     box = cv::Rect(-1, -1, 0, 0);
 
     cv::Mat image(cv::Size(960, 540), CV_8UC3, cv::Scalar(0, 0, 0));
