@@ -1,5 +1,5 @@
 /**
-    @brief GUI sample. original: http://dasl.mem.drexel.edu/~noahKuntz/openCVTut3.html#Step%201
+    @brief マウスコールバックのサンプルプログラム。Original: http://dasl.mem.drexel.edu/~noahKuntz/openCVTut3.html#Step%201
 */
 
 #include <iostream>
@@ -58,7 +58,7 @@ int useGUI(void)
     std::string name = "Box Example";
     box = cv::Rect(-1, -1, 0, 0);
 
-    cv::Mat image(cv::Size(960, 540), CV_8UC3, cv::Scalar(0, 0, 0));
+    cv::Mat image(cv::Size(960, 540), CV_8UC3, cv::Scalar(100, 100, 100));
     cv::Mat temp = image.clone();
 
     // ウィンドウを生成
@@ -70,8 +70,12 @@ int useGUI(void)
     // Main loop
     while (1){
         image.copyTo(temp);
-        if (drawing_box)
+
+        // マウスの左クリックを離すまでの間、矩形を一時的に描画
+        if (drawing_box) {
             draw_box(&temp, box);
+        }
+
         cv::imshow(name, temp);
 
         // Escで終了
