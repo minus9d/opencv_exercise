@@ -2,14 +2,8 @@
     @brief マウスコールバックのサンプルプログラム。Original: http://dasl.mem.drexel.edu/~noahKuntz/openCVTut3.html#Step%201
 */
 
-#include <iostream>
-#include <vector>
-
-#include <opencv2/calib3d/calib3d.hpp>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
-#include <opencv2/legacy/compat.hpp>
 
 
 // グローバル変数
