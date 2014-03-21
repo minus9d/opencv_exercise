@@ -2,13 +2,14 @@
     @brief マウスコールバックのサンプルプログラム。Original: http://dasl.mem.drexel.edu/~noahKuntz/openCVTut3.html#Step%201
 */
 
+#include <iostream>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
-
 
 // グローバル変数
 cv::Rect box;
 bool drawing_box = false;
+int g_switch_value = 0;
 
 void draw_box(cv::Mat* img, cv::Rect rect){
     cv::rectangle(*img, cv::Point2d(box.x, box.y), cv::Point2d(box.x + box.width, box.y + box.height),
@@ -47,6 +48,10 @@ void my_mouse_callback(int event, int x, int y, int flags, void* param){
     }
 }
 
+void switch_callback(int position, void *dummy){
+    std::cout  << position << std::endl;
+}
+
 int useGUI(void)
 {
     std::string name = "Box Example";
@@ -61,6 +66,8 @@ int useGUI(void)
 
     // コールバックを設定
     cv::setMouseCallback(name, my_mouse_callback, (void *)&image);
+
+    cv::createTrackbar("Switch", name, &g_switch_value, 100, switch_callback);
 
     // Main loop
     while (1){

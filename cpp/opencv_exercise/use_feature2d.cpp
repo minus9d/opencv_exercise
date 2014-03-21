@@ -4,7 +4,6 @@
 */
 
 #include <iostream>
-#include <algorithm>
 #include <vector>
 #include "opencv2/core/core.hpp"
 #include "opencv2/features2d/features2d.hpp"
@@ -19,33 +18,58 @@ void drawSurfKeypoints()
 {
     cv::Mat img = cv::imread("..\\img\\baboon200.jpg", CV_LOAD_IMAGE_GRAYSCALE);
 
-    int minHessian = 1000;
+    // 特徴点を検出
+    int minHessian = 400;
     cv::SurfFeatureDetector detector(minHessian);
     std::vector<cv::KeyPoint> keypoints;
     detector.detect(img, keypoints);
 
     if (keypoints.empty()) return;
 
-    // keypointを描画
-    cv::Mat dstImg;
-    cv::drawKeypoints(
-        img, // 入力画像
-        keypoints, // 特徴点
-        dstImg, // 出力画像
-        cv::Scalar::all(-1), // 色  -1の場合はランダム?
-        cv::DrawMatchesFlags::DRAW_RICH_KEYPOINTS // 描画のオプション  DRAW_RICH_KEYPOINTSを選んだ場合は、キーポイントのサイズと方向が描画される
-        );
-    cv::imshow("Keypoints", dstImg);
+    // response値の最小・最大を取得
+    double response_min = (keypoints.end() - 1)->response;
+    double response_max = keypoints[0].response;
 
-    // 自力でkeypointを描画
-    cv::Mat dstImgMine;
-    cv::cvtColor(img, dstImgMine, CV_GRAY2BGR);
-    for (auto k : keypoints){
-        cv::circle(dstImgMine, k.pt, 3, cv::Scalar(255, 0, 0));
+    // WindowとTrackbarを生成
+    const std::string window_name = "Keypoints";
+    cv::namedWindow(window_name, CV_WINDOW_KEEPRATIO | CV_GUI_EXPANDED);
+    int trackbar_value = response_min;
+    cv::createTrackbar("res.", window_name, &trackbar_value, response_max + 1);
+
+    while (1)
+    {
+        int more_than_trackbar_value_index = -1;
+        for (int i = 0; i < keypoints.size(); ++i)
+        {
+            if (keypoints[i].response >= trackbar_value) {
+                more_than_trackbar_value_index = i;
+            }
+        }
+
+        // keypointを描画
+        cv::Mat dstImg = img.clone();
+
+        if (more_than_trackbar_value_index != -1)
+        {
+            // 現在のTrackbarの値以上の特徴点のみを表示
+            cv::drawKeypoints(
+                img, // 入力画像
+                std::vector<cv::KeyPoint>(
+                    keypoints.begin(),
+                    keypoints.begin() + more_than_trackbar_value_index + 1), // 特徴点
+                dstImg, // 出力画像
+                cv::Scalar(0, 0, 255), // 色
+                cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS // 描画のオプション  DRAW_RICH_KEYPOINTSを選んだ場合は、キーポイントのサイズと方向が描画される
+                );
+        }
+
+        cv::imshow(window_name, dstImg);
+
+        // Escで終了
+        if (cv::waitKey(15) == 27)
+            break;
     }
-    cv::imshow("KeypointsMine", dstImgMine);
 
-    cv::waitKey(0);
 
     return;
 }

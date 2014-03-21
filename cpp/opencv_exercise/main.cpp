@@ -35,9 +35,9 @@
 */
 int main(int argc, char** argv)
 {
-    //drawSurfKeypoints();
+    drawSurfKeypoints();
     //useFeature2d();
-    useGUI();
+    //useGUI();
     return 0;
 }
 
