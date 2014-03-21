@@ -20,19 +20,19 @@ void my_mouse_callback(int event, int x, int y, int flags, void* param){
     cv::Mat* image = static_cast<cv::Mat*>(param);
 
     switch (event){
-    case CV_EVENT_MOUSEMOVE:
+    case cv::EVENT_MOUSEMOVE:
         if (drawing_box){
             box.width = x - box.x;
             box.height = y - box.y;
         }
         break;
 
-    case CV_EVENT_LBUTTONDOWN:
+    case cv::EVENT_LBUTTONDOWN:
         drawing_box = true;
         box = cv::Rect(x, y, 0, 0);
         break;
 
-    case CV_EVENT_LBUTTONUP:
+    case cv::EVENT_LBUTTONUP:
         drawing_box = false;
         if (box.width < 0){
             box.x += box.width;
@@ -52,17 +52,19 @@ int useGUI(void)
     std::string name = "Box Example";
     box = cv::Rect(-1, -1, 0, 0);
 
+    // 灰色の画像を生成
     cv::Mat image(cv::Size(960, 540), CV_8UC3, cv::Scalar(100, 100, 100));
     cv::Mat temp = image.clone();
 
     // ウィンドウを生成
-    cv::namedWindow(name, CV_WINDOW_AUTOSIZE | CV_WINDOW_FREERATIO);
+    cv::namedWindow(name, CV_WINDOW_AUTOSIZE);
 
     // コールバックを設定
     cv::setMouseCallback(name, my_mouse_callback, (void *)&image);
 
     // Main loop
     while (1){
+        // imageをtempにコピー
         image.copyTo(temp);
 
         // マウスの左クリックを離すまでの間、矩形を一時的に描画
@@ -73,7 +75,7 @@ int useGUI(void)
         cv::imshow(name, temp);
 
         // Escで終了
-        if (cvWaitKey(15) == 27)
+        if (cv::waitKey(15) == 27)
             break;
     }
 
