@@ -77,11 +77,13 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="histogram.cpp" />
     <ClCompile Include="use_feature2d.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="use_gui.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="histogram.h" />
     <ClInclude Include="use_feature2d.h" />
     <ClInclude Include="use_gui.h" />
   </ItemGroup>
