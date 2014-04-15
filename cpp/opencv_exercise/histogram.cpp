@@ -17,13 +17,15 @@ void make_histogram_image(cv::MatND& hist, cv::Mat& hist_img, int nbins)
     int img_height = 512;
     hist_img = cv::Mat(cv::Size(img_width, img_height), CV_8UC3);
 
+    // ヒストグラムのスケーリング
+    // ヒストグラムのbinの中で、頻度数最大のbinの高さが、ちょうど画像の縦幅と同じ値になるようにする
     double max_val = 0.0;
     cv::minMaxLoc(hist, 0, &max_val);
-
-    // スケーリング
     hist = hist * (max_val ? img_height / max_val : 0.0);
 
+    // ヒストグラムのbinの数だけ矩形を書く
     for (int j = 0; j < nbins; ++j){
+        // saturate_castは、安全に型変換するための関数。桁あふれを防止
         int bin_w = cv::saturate_cast<int>((double)img_width / nbins);
         cv::rectangle(
             hist_img,
@@ -39,25 +41,24 @@ void showLuminanceHistogramImage()
 
     // ヒストグラムを生成するために必要なデータ
     int nbins = 64; // ヒストグラムのビンの数
-    int hsize[] = { nbins }; // just one dimension
-    float range[] = { 0, 255 };
-    const float *ranges[] = { range };
-    int chnls[] = { 0 };
+    int hsize[] = { nbins }; // 今回は1次元のヒストグラムを作るので要素数は一つ
+    float range[] = { 0, 255 };  // 扱うデータの最小値、最大値　今回は輝度データなので値域は[0, 255]
+    const float *ranges[] = { range }; // 今回は1次元のヒストグラムを作るので要素数は一つ
+    int chnls[] = { 0 }; // cv::Matの何番目のチャネルを使うか　今回は白黒画像なので0番目のチャネル以外選択肢なし
 
-    // 白黒画像から輝度のヒストグラムデータを生成
+    // 白黒画像から輝度のヒストグラムデータ（＝各binごとの出現回数をカウントしたもの）を生成
     cv::MatND hist;
     cv::calcHist(&img, 1, chnls, cv::Mat(), hist, 1, hsize, ranges);
 
+    // テキスト形式でヒストグラムデータを確認
+    std::cout << hist << std::endl;
 
-    short b = cv::saturate_cast<short>(3333.33333);
-    uchar a = cv::saturate_cast<uchar>(-100);
-
+    // ヒストグラムデータを表示用の画像に変換
+    // OpenCVでは関数が用意されていないので自前で用意する必要がある
     cv::Mat hist_img;
     make_histogram_image(hist, hist_img, nbins);
     cv::imshow("histogram image", hist_img);
 
-    std::cout << hist << std::endl;
-
+    // 画像表示のためのwait
     cv::waitKey(-1);
-
 }
