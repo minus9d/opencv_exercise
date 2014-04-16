@@ -36,7 +36,8 @@
 */
 int main(int argc, char** argv)
 {
-    std::cout << cv::getBuildInformation() << std::endl;
+    //std::cout << cv::getBuildInformation() << std::endl;
+
     //drawSurfKeypoints();
     //useFeature2d();
     //trackbarSample();
