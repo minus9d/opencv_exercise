@@ -2,6 +2,7 @@
 #include "use_feature2d.h"
 #include "use_gui.h"
 #include "histogram.h"
+#include "webcam.h"
 
 // get version
 #define CV_VERSION_STR CVAUX_STR(CV_MAJOR_VERSION) CVAUX_STR(CV_MINOR_VERSION) CVAUX_STR(CV_SUBMINOR_VERSION)
@@ -41,7 +42,8 @@ int main(int argc, char** argv)
     //drawSurfKeypoints();
     //useFeature2d();
     //trackbarSample();
-    showLuminanceHistogramImage();
+    //showLuminanceHistogramImage();
+    webcam();
     return 0;
 }
 
