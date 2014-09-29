@@ -47,18 +47,25 @@ void test(void)
 
 int opencv_fft_sample(void)
 {
-    const char* filename = "../img/baboon200.jpg";
+    const char* filename = "../img/baboon200_rotated.jpg";
     using namespace cv;
 
     Mat I = imread(filename, CV_LOAD_IMAGE_GRAYSCALE);
     if (I.empty())
         return -1;
+    cout << "original image size: " << I.size() << endl;
 
     Mat padded;                            //expand input image to optimal size
     int m = getOptimalDFTSize(I.rows);
     int n = getOptimalDFTSize(I.cols); // on the border add zero values
+    cout << "optimal image size: " << n << " x " << m << endl;
     copyMakeBorder(I, padded, 0, m - I.rows, 0, n - I.cols, BORDER_CONSTANT, Scalar::all(0));
 
+    // padded image‚Í‰E’[‚Æ‰º’[‚É•‘Ñ‚ª“ü‚é??
+    imshow("original image", I);
+    imshow("padded image", padded);
+
+    // ŽÀ” + •¡‘f”‚Ì•ª
     Mat planes[] = { Mat_<float>(padded), Mat::zeros(padded.size(), CV_32F) };
     Mat complexI;
     merge(planes, 2, complexI);         // Add to the expanded another plane with zeros
