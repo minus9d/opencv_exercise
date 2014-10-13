@@ -50,7 +50,7 @@ void test(void)
 // http://docs.opencv.org/trunk/doc/tutorials/core/discrete_fourier_transform/discrete_fourier_transform.html
 
 // サンプルにあった2D FFT
-void two_d_fft(Mat& padded)
+void two_d_fft(Mat& padded, cv::Mat& result)
 {
     // 実数 + 複素数の分からなる2chの画像を作る
     Mat planes[] = { Mat_<float>(padded), Mat::zeros(padded.size(), CV_32F) };
@@ -59,6 +59,9 @@ void two_d_fft(Mat& padded)
 
     // 2次元dftする
     dft(complexI, complexI);            // this way the result may fit in the source matrix
+
+    // FFTの結果を返す
+    result = complexI;
 
     // compute the magnitude and switch to logarithmic scale
     // => log(1 + sqrt(Re(DFT(I))^2 + Im(DFT(I))^2))
@@ -105,17 +108,22 @@ void two_d_fft(Mat& padded)
 }
 
 // 定義に従い2D DFTする
-void two_d_dft_difinition(Mat& padded)
+void two_d_dft_difinition(Mat& padded, cv::Mat& result_re, cv::Mat& result_im)
 {
     cv::Mat img = Mat_<float>(padded);
+    result_re = Mat_<float>(padded);
+    result_im = Mat_<float>(padded);
 
-    // 定義式からフーリエ変換
-    for (int h = 0; h < img.rows; ++h)
-    { 
-        for (int w = 0; w < img.cols; ++w)
+   // 定義式からフーリエ変換
+   // 時間がかかりすぎるので左上だけ実行
+   //for (int h = 0; h < img.rows; ++h)
+   for (int h = 0; h < min(img.rows, 5); ++h)
+   {
+        //for (int w = 0; w < img.cols; ++w)
+        for (int w = 0; w < min(img.cols, 5); ++w)
         {
             // X(k, l) = sum_m sum_n { x(m, n) * exp{ -j * 2pi * ( km / M + ln / N ) } }
-            complex<double> X = 0.0;
+            complex<float> X = 0.0;
             for (int h2 = 0; h2 < img.rows; ++h2)
             {
                 for (int w2 = 0; w2 < img.cols; ++w2)
@@ -131,10 +139,10 @@ void two_d_dft_difinition(Mat& padded)
                         );
                 }
             }
-            cout << X << endl;
+            result_re.at<float>(h, w) = X.real();
+            result_im.at<float>(h, w) = X.imag();
         }
     }
-
 }
 
 int opencv_fft_sample(void)
@@ -156,10 +164,28 @@ int opencv_fft_sample(void)
     imshow("padded image", padded);
     imshow("original image", I);
 
+    // サンプルによるfft
+    cv::Mat result_sample;
+    two_d_fft(padded, result_sample);
+    vector<Mat> splitted;
+    split(result_sample, splitted);
 
-    two_d_fft(padded);
+    cout << "[correct fft result]" << endl;
+    cout << result_sample(cv::Rect(0, 0, 5, 5)) << endl;
+    cout << "[correct fft result(Re)]" << endl;
+    cout << splitted[0](cv::Rect(0, 0, 5, 5)) << endl;
+    cout << "[correct fft result(Im)]" << endl;
+    cout << splitted[1](cv::Rect(0, 0, 5, 5)) << endl;
 
-    two_d_dft_difinition(padded);
+    // 定義によるfft
+    cv::Mat result_re;
+    cv::Mat result_im;
+    two_d_dft_difinition(padded, result_re, result_im);
+
+    cout << "[dft result by definition(Re)]" << endl;
+    cout << result_re(cv::Rect(0, 0, 5, 5)) << endl;
+    cout << "[dft result by definition(Im)]" << endl;
+    cout << result_im(cv::Rect(0, 0, 5, 5)) << endl;
 
     return 0;
 }
