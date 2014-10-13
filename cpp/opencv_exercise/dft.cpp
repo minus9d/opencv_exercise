@@ -107,7 +107,7 @@ void two_d_fft(Mat& padded, cv::Mat& result)
     waitKey(10);
 }
 
-// ’è‹`‚É]‚¢2D DFT‚·‚é
+// ’è‹`‚É]‚¢2D DFT‚·‚é(‹³‰È‘p15)
 void two_d_dft_difinition(Mat& padded, cv::Mat& result_re, cv::Mat& result_im)
 {
     cv::Mat img = Mat_<float>(padded);
