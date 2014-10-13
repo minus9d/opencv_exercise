@@ -24,6 +24,12 @@
   <ItemGroup>
     <Compile Include="opencv_python_exercise.py" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="..\..\..\..\..\..\..\lib\opencv2.4.10\build\python\2.7\x64\cv2.pyd">
+      <Name>cv2.pyd</Name>
+      <PythonExtension>..\..\..\..\..\..\..\lib\opencv2.4.10\build\python\2.7\x64\cv2.pyd</PythonExtension>
+    </Reference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
