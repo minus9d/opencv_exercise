@@ -6,8 +6,7 @@
     <ProjectGuid>20178cc8-86b8-4b6c-9c98-aaf0916b8e1b</ProjectGuid>
     <ProjectHome>.</ProjectHome>
     <StartupFile>opencv_python_exercise.py</StartupFile>
-    <SearchPath>
-    </SearchPath>
+    <SearchPath>..\..\..\..\..\..\..\lib\opencv2.4.10\build\python\2.7\x64\</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>opencv_python_exercise</Name>
