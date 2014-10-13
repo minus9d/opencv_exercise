@@ -134,7 +134,7 @@ void two_d_dft_difinition(Mat& padded, cv::Mat& result_re, cv::Mat& result_im)
                         // Re
                         0.0,
                         // Im
-                        -2.0 * M_PI * (h * h2 / img.rows + w * w2 / img.cols)
+                        -2.0 * M_PI * ((double)h * h2 / img.rows + (double)w * w2 / img.cols)
                         )
                         );
                 }
