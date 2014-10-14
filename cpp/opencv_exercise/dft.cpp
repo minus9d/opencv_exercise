@@ -108,6 +108,7 @@ void two_d_fft(Mat& padded, cv::Mat& result)
 }
 
 // 定義に従い2D DFTする(教科書p15)
+// paddedはheight * width * 1ch
 void two_d_dft_difinition(Mat& padded, cv::Mat& result_re, cv::Mat& result_im)
 {
     cv::Mat img = Mat_<float>(padded);
@@ -144,6 +145,68 @@ void two_d_dft_difinition(Mat& padded, cv::Mat& result_re, cv::Mat& result_im)
         }
     }
 }
+
+// 定義に従い1D FFT
+void one_d_dft_definition(
+    const vector<complex<float>>& src,
+    vector<complex<float>>& dst)
+{
+    int size = src.size();
+    dst.resize(src.size());
+
+    // 定義式からフーリエ変換
+    for (int i = 0; i < size; ++i)
+    {
+        complex<float> X = 0.0;
+        for (int n = 0; n < size; ++n)
+        {
+            X += src[n] * exp(complex<float>(0.0, -2.0 * M_PI * n * i / size));
+        }
+        dst[i] = X;
+    }
+}
+
+// 行に沿って1D FFTを行った後、列に沿って1D FFTすることで高速に2D FFTする(教科書 p89)
+void two_d_dft_difinition_fast(Mat& padded, cv::Mat& result_re, cv::Mat& result_im)
+{
+    cv::Mat img = Mat_<float>(padded);
+    result_re = Mat_<float>(padded);
+    result_im = Mat_<float>(padded);
+
+    // まず行に沿って1D FFTする
+    vector<vector<complex<float>>> one_d_dft_result(img.rows); // 結果格納用
+
+    for (int h = 0; h < img.rows; ++h)
+    {
+        vector<complex<float>> src;
+        for (int w = 0; w < img.cols; ++w)
+        {
+            src.push_back(img.at<float>(h, w));
+        }
+        one_d_dft_definition(src, one_d_dft_result[h]);
+    }
+
+    // 次に列に沿って1D FFTする
+    for (int w = 0; w < img.cols; ++w)
+    {
+        vector<complex<float>> src;
+        for (int h = 0; h < img.rows; ++h)
+        {
+            src.push_back(one_d_dft_result[h][w]);
+        }
+        vector<complex<float>> dst;
+        one_d_dft_definition(src, dst);
+
+        for (int h = 0; h < img.rows; ++h)
+        {
+            result_re.at<float>(h, w) = dst[h].real();
+            result_im.at<float>(h, w) = dst[h].imag();
+        }
+    }
+
+    return;
+}
+
 
 int opencv_fft_sample(void)
 {
@@ -185,6 +248,14 @@ int opencv_fft_sample(void)
     cout << "[dft result by definition(Re)]" << endl;
     cout << result_re(cv::Rect(0, 0, 5, 5)) << endl;
     cout << "[dft result by definition(Im)]" << endl;
+    cout << result_im(cv::Rect(0, 0, 5, 5)) << endl;
+
+    // 1D fftを繰り返して2D fft
+    two_d_dft_difinition_fast(padded, result_re, result_im);
+
+    cout << "[fast 2d dft(Re)]" << endl;
+    cout << result_re(cv::Rect(0, 0, 5, 5)) << endl;
+    cout << "[fast 2d dft(Im)]" << endl;
     cout << result_im(cv::Rect(0, 0, 5, 5)) << endl;
 
     return 0;
