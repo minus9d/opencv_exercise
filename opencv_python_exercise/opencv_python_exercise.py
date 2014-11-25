@@ -3,6 +3,7 @@
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
+import timeit
 
 print cv2.__version__
 
@@ -18,8 +19,6 @@ print img_color.shape
 height, width = img_gray.shape
 dtype = img_color.dtype
 img_size = img_color.size
-
-
 
 # 画像のクローン
 # ?? img = img_color.clone()
@@ -44,11 +43,20 @@ img_rgb = cv2.merge([r,g,b])
 # 画素へのアクセス
 print img_color[20, 100]  # y座標, x座標の順番
 
-# 部分画像
-img_roi = img_color[50:100, 100:200]
-cv2.imshow("roi", img_roi)
+## 部分画像
+#img_roi = img_color[50:100, 100:200]
+#cv2.imshow("roi", img_roi)
 
+# 新しい空の画像生成
+new_image = np.zeros( img_color.shape, np.uint8)
+
+# 部分に色を塗る
+new_image[50:100, 200:300] = (255, 0, 0)
+cv2.imshow("empty image", new_image)
 
 
 cv2.waitKey()
+
+img = cv2.imread("img.jpg");
+print(img.shape)
 
