@@ -79,6 +79,7 @@
   <ItemGroup>
     <ClCompile Include="dft.cpp" />
     <ClCompile Include="histogram.cpp" />
+    <ClCompile Include="mat_basic.cpp" />
     <ClCompile Include="use_feature2d.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="use_gui.cpp" />
@@ -87,6 +88,7 @@
   <ItemGroup>
     <ClInclude Include="dft.h" />
     <ClInclude Include="histogram.h" />
+    <ClInclude Include="mat_basic.h" />
     <ClInclude Include="use_feature2d.h" />
     <ClInclude Include="use_gui.h" />
     <ClInclude Include="webcam.h" />

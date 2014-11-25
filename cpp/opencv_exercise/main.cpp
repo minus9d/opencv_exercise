@@ -1,4 +1,5 @@
 #include "opencv2/core/core.hpp"
+#include "mat_basic.h"
 #include "use_feature2d.h"
 #include "use_gui.h"
 #include "histogram.h"
@@ -40,12 +41,13 @@ int main(int argc, char** argv)
 {
     //std::cout << cv::getBuildInformation() << std::endl;
 
+    matBasic();
     //drawSurfKeypoints();
     //useFeature2d();
     //trackbarSample();
     //showLuminanceHistogramImage();
     //webcam();
-    dftSample();
+    //dftSample();
     return 0;
 }
 
